@@ -3,24 +3,20 @@
 // Set the request URL
 $url = "http://localhost:3000/transfer-tokens";
 
-// Set the request parameters
-
 $data = array(
-   "contractAddress" => "0x00c2f6667a649D17a0E87691e716Db40633165b1",
+   "contractAddress" => "0x51de5eeB225a1e392F5EaCD4898FF83b38c342f1",
     "recipientAddress" => "0x8a936dd11171C554A19308662DAfF04E8CDF61C0",
     "tokenAmount" => 10,
-    "tokenMetadata1" => "json_encode(array(
-        "name" => "My Token Name",
-        "description" => "My Token Description"
-    )),
+    "tokenMetadata1" => json_encode([
+    "name" => "My Token Name",
+    "description" => "My Token Description"
+]),
 );
 
 // Encode the data as JSON
-echo $json_data;
+$json_data = json_encode($data);
 
 error_log($json_data);
-
-$json_data = json_encode($data);
 
 
 // Set the cURL options
@@ -57,7 +53,7 @@ curl_close($curl);
 // Print the response
 echo $response;
 
-// Print the contents of the $data array
+// Print the contents of the cccarray
 echo "<pre>";
 print_r($data);
 echo "</pre>";

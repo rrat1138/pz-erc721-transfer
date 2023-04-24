@@ -29,6 +29,7 @@ const provider = new Web3.providers.HttpProvider(auth.rpcUrl, {
 
 const web3 = new Web3(provider);
 
+
 const generateUniqueTokenIds = async (amount) => {
   const tokenIds = [];
   for (let i = 0; i < amount; i++) {
@@ -41,40 +42,46 @@ const generateUniqueTokenIds = async (amount) => {
   return tokenIds;
 }
 
-function transfer(tokenAmount, recipientAddress, contractAddress, _data) {
+async function transfer(tokenAmount, recipientAddress, contractAddress, tokenMetadata1) {
   const contract = new web3.eth.Contract(contractABI, contractAddress);
-  return new Promise(async (resolve, reject) => {
-    try {
-      const tokenIds = await generateUniqueTokenIds(tokenAmount);
-      for (let i = 0; i < tokenAmount; i++) {
-        const tokenId = tokenIds[i];
+  try {
+    const tokenIds = await generateUniqueTokenIds(tokenAmount);
+    for (let i = 0; i < tokenAmount; i++) {
+      const tokenId = tokenIds[i];
 
-        // Build the raw transaction
+      // Build the raw transaction
+      const _data = web3.eth.abi.encodeParameter('string', JSON.stringify(tokenMetadata1));
+const nonce = await web3.eth.getTransactionCount(fromAddress);
 
-        const nonce = await web3.eth.getTransactionCount(fromAddress);
-        const gasPrice = await web3.eth.getGasPrice();
-        const gasLimit = 210000;
+      const gasPrice = await web3.eth.getGasPrice();
+      const gasLimit = 210000;
 
-        const data = contract.methods.safeTransferFrom(fromAddress, recipientAddress, tokenId, _data).encodeABI();
-        const txParams = {
-          nonce: web3.utils.toHex(nonce),
-          gasPrice: web3.utils.toHex(gasPrice),
-          gasLimit: web3.utils.toHex(gasLimit),
-          to: contractAddress,
-          data: data,
-        };
+      const data = contract.methods.safeTransferFrom(fromAddress, recipientAddress, tokenId, _data).encodeABI();
 
-        // Sign the raw transaction
-        const signedTx = await web3.eth.accounts.signTransaction(txParams, privateKey);
+const incrementedNonce = nonce + 1;
 
-        // Send the raw transaction
-        const result = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-      }
-      resolve('Transfer successful');
-    } catch (error) {
-      reject(error);
+const balance = await web3.eth.getBalance(fromAddress);
+console.log('Account balance:', web3.utils.fromWei(balance, 'ether'));
+
+const txParams = {
+  nonce: web3.utils.toHex(nonce),
+  gasPrice: web3.utils.toHex(gasPrice),
+  gasLimit: web3.utils.toHex(gasLimit),
+  to: contractAddress,
+  data: data,
+  gas: web3.utils.toHex(300000) // adding gas amount
+};
+
+      // Sign the raw transaction
+      const signedTx = await web3.eth.accounts.signTransaction(txParams, privateKey);
+
+      // Send the raw transaction
+      const result = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
     }
-  });
+    console.log('Transfer successful');
+  } catch (error) {
+    console.error('Transfer failed', error);
+  }
 }
 
 module.exports.transfer = transfer;
