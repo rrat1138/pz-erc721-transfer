@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const { transfer }  = require('./transferFunction.js');
+const { transfer } = require('./transferFunction.js');
+
 app.use(bodyParser.json());
 
 // Endpoint for receiving data via POST request

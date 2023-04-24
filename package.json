@@ -1,4 +1,16 @@
 {
+  "name": "my-app",
+  "version": "1.0.0",
+  "description": "My app description",
+  "main": "server.js",
+  "scripts": {
+    "build": "npm run copy-abi && babel src --out-dir lib",
+    "start": "node lib/server.js",
+    "copy-abi": "copy src\\Contract_ABI.json lib\\Contract_ABI.json"
+  },
+  "keywords": [],
+  "author": "Your Name",
+  "license": "ISC",
   "dependencies": {
     "@infura/sdk": "^2.2.0",
     "assert": "^2.0.0",
@@ -15,9 +27,6 @@
     "web3": "^1.9.0",
     "web3-eth-contract": "^1.9.0"
   },
-  "scripts": {
-    "build": "babel index.js -o indexed.js"
-  },
   "devDependencies": {
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.21.3",
@@ -30,3 +39,4 @@
     "webpack-cli": "^5.0.1"
   }
 }
+
