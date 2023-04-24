@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npm run copy-abi && babel src --out-dir lib",
     "start": "node lib/server.js",
-    "copy-abi": "copy src\\Contract_ABI.json lib\\Contract_ABI.json"
+    "copy-abi": "cp src/Contract_ABI.json lib/Contract_ABI.json"
   },
   "keywords": [],
   "author": "Your Name",
