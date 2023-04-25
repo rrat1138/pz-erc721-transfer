@@ -6,8 +6,8 @@ const { transfer } = require('./transferFunction.js');
 app.use(bodyParser.json());
 
 // Endpoint for receiving data via POST request
-app.post('/transfer-tokens', async (req, res) => {
-const { contractAddress, recipientAddress, tokenAmount, tokenMetadata1 } = req.body;
+app.get('/transfer-tokens/:contractAddress/:recipientAddress/:tokenAmount/:tokenMetadata1', async (req, res) => {
+  const { contractAddress, recipientAddress, tokenAmount, tokenMetadata1 } = req.params;
   try {
     const result = await transfer(tokenAmount, recipientAddress, contractAddress, tokenMetadata1);
     res.send(result);
@@ -15,6 +15,7 @@ const { contractAddress, recipientAddress, tokenAmount, tokenMetadata1 } = req.b
     res.status(500).send(error);
   }
 });
+
 
 app.listen(8080, () => {
   console.log('Server started on port 8080');
