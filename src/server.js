@@ -7,7 +7,7 @@ app.use(express.json());
 
 // Endpoint for receiving data via query parameters
 app.get('/transfer-tokens/:contractAddress/:recipientAddress/:tokenAmount/:tokenMetadata', async (req, res) => {
-  const { contractAddress, recipientAddress, tokenAmount, tokenMetadata } = req.params;
+  const { contractAddress, recipientAddress, tokenAmount } = req.params;
 const tokenMetadata = decodeURIComponent(req.params.tokenMetadata);
 const tokenMetadata1 = JSON.parse(tokenMetadata);
   try {
