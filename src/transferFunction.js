@@ -56,7 +56,7 @@ const nonce = await web3.eth.getTransactionCount(fromAddress);
       const gasPrice = await web3.eth.getGasPrice();
       const gasLimit = 210000;
 
-      const data = contract.methods.safeTransferFrom(fromAddress, recipientAddress, tokenId, _data).encodeABI();
+      const data = contract.methods.transferFrom(fromAddress, recipientAddress, tokenId, _data).encodeABI();
 
 const incrementedNonce = nonce + 1;
 
